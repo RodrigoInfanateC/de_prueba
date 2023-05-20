@@ -1,0 +1,44 @@
+<%= form_with(model: [@restaurant, item], url: restaurant_item_path(item.restaurant, item), local: true) do |form| %>
+  <% if item.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(item.errors.count, "error") %> prohibited this item from being saved:</h2>
+
+      <ul>
+        <% item.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :price, style: "display: block" %>
+    <%= form.text_field :price %>
+  </div>
+
+  <div>
+    <%= form.label :callories, style: "display: block" %>
+    <%= form.number_field :callories %>
+  </div>
+
+  <div>
+    <%= form.label :restaurant_id, style: "display: block" %>
+    <%= form.collection_select :restaurant_id, Restaurant.all, :id, :name %>
+    <p></p>
+  </div>
+
+  <div>
+    <%= form.label :dish_id, style: "display: block" %>
+    <%= form.collection_select :dish_id, Dish.all, :id, :name %>
+    <p></p>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

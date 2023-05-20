@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1><%= @item.name %> Details</h1>
+
+<p><strong>Price:</strong> <%= @item.price %></p>
+<p><strong>Restaurant:</strong> <%= @item.restaurant.name %></p> <!-- Acceder al nombre del restaurante -->
+<p><strong>Dish:</strong> <%= @item.dish.name %></p> <!-- Acceder al nombre del plato -->
+
+<div>
+  <%= link_to "Edit this item", edit_restaurant_item_path(@restaurant, @item) %> |
+  <%= link_to "Back to items", restaurant_items_path(@restaurant) %>
+
+  <%= button_to "Destroy this item", [@restaurant, @item], method: :delete %>
+</div>

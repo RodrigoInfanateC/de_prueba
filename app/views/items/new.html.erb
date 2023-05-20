@@ -1,0 +1,12 @@
+<h1>New item</h1>
+
+<%= render "form", item: @item %>
+<!--<%= form_tag restaurant_items_path(@restaurant), method: :post do %> -->
+<% end %>
+
+<br>
+
+<div>
+  <%= link_to "Back to items", restaurant_items_path(@restaurant) %>
+</div>
+
