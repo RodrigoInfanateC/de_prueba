@@ -3,13 +3,56 @@
 <h1><%= @item.name %> Details</h1>
 
 <p><strong>Price:</strong> <%= @item.price %></p>
-<p><strong>Restaurant:</strong> <%= @item.restaurant.name %></p> <!-- Acceder al nombre del restaurante -->
-<p><strong>Dish:</strong> <%= @item.dish.name %></p> <!-- Acceder al nombre del plato -->
+<p><strong>Restaurant:</strong> <%= @item.restaurant.name %></p>
+<p><strong>Dish:</strong> <%= @item.dish.name %></p>
 
 <div>
   <%= link_to "Edit this item", edit_restaurant_item_path(@restaurant, @item) %> |
   <%= link_to "Back to items", restaurant_items_path(@restaurant) %>
 
-
   <%= button_to "Destroy this item", [@restaurant, @item], method: :delete %>
 </div>
+
+<div id="order-summary-container">
+  <h3>Order Summary</h3>
+  <ul id="selected-items">
+    <!-- Aquí se agregarán los items seleccionados -->
+  </ul>
+  <p>Total: $<span id="total-amount">0</span></p>
+</div>
+
+<script>
+  // Variables para la posición inicial del contenedor de resumen de pedido
+  var initialPosition = window.innerHeight - 200; // Ajusta el valor según sea necesario
+  var container = document.getElementById("order-summary-container");
+  container.style.bottom = initialPosition + "px";
+
+  // Manejar el desplazamiento del usuario y actualizar la posición del contenedor
+  window.addEventListener("scroll", function() {
+    var scrolled = window.scrollY || window.pageYOffset;
+    container.style.bottom = initialPosition - scrolled + "px";
+  });
+
+  // Función para agregar un item al pedido mediante AJAX
+  function addToOrder(itemId) {
+    $.ajax({
+      url: "/add_to_order", // Ruta al controlador para agregar el item al pedido
+      method: "POST",
+      data: { item_id: itemId },
+      success: function(response) {
+        // Actualizar la ventana de resumen del pedido con la respuesta del servidor
+        $("#selected-items").html(response.selectedItems);
+        $("#total-amount").text(response.totalAmount);
+      },
+      error: function() {
+        alert("Error al agregar el item al pedido. Inténtalo nuevamente.");
+      }
+    });
+  }
+
+  // Escuchar el evento click en los botones de "Add to Order"
+  $(".add-to-order-button").on("click", function() {
+    var itemId = $(this).data("item-id");
+    addToOrder(itemId);
+  });
+</script>

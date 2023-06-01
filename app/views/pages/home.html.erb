@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Restaurant APP</title>
+    <title>The Top Restaurant</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
-            background-color: black;
+            background-color: black ;
             color: white;
             display: flex;
             justify-content: center;
@@ -49,12 +49,6 @@
             margin-top: 30px;
         }
 
-        .top-restaurants h2 {
-            color: white;
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-
         .top-restaurants ul {
             margin-bottom: 20px;
             display: flex;
@@ -90,21 +84,21 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Restaurant APP</h1>
-        <ul>
-            <li><%=link_to("See all restaurants", :restaurants, class: "btn btn-dark")%></li>
-            <p></p>
-            <li><%=link_to("See all dishes", :dishes, class: "btn btn-dark")%></li>
-        </ul>
-        <div class="top-restaurants">
-            <h2>The Top Restaurants</h2>
-            <ul>
-                <% @top_restaurants.each do |restaurant| %>
-                    <li><%= link_to(restaurant.name, restaurant_path(restaurant)) %> - <%= restaurant.items.count %> items</li>
-                <% end %>
-            </ul>
-        </div>
+  <div class = "conteiner">
+    <div class="top-restaurants">
+      <h1>The Top Restaurants</h1>
+      <ul>
+          <% @top_restaurants.each do |restaurant| %>
+              <li><%= link_to(restaurant.name, restaurant_path(restaurant)) %>
+          <% end %>
+      </ul>
     </div>
+    <div>
+      <ul>
+          <li><%=link_to("See more", :restaurants, class: "btn btn-dark")%></li>
+          <p></p>
+      </ul>
+    </div>
+  </div>
 </body>
 </html>

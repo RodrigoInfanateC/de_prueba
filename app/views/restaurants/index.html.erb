@@ -1,17 +1,115 @@
-<p style="color: green"><%= notice %></p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Top Restaurant</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: black ;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-<h1>Restaurants</h1>
+        .container {
+            border: 2px solid green;
+            margin-top: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
 
-<div id="restaurants">
-  <% @restaurants.each do |restaurant| %>
+        h1, h2 {
+            color: white;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .btn-dark {
+            color: white;
+            background-color: black;
+            border-color: green;
+            margin-right: 10px;
+        }
+
+        .top-restaurants {
+            margin-top: 30px;
+        }
+
+        .top-restaurants ul {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .top-restaurants li {
+            font-size: 18px;
+            color: white;
+            background-color: black;
+            border: 2px solid green;
+            border-radius: 20px;
+            padding: 10px 20px;
+            margin: 5px;
+            text-align: center;
+        }
+
+        .top-restaurants li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .top-restaurants li::before {
+            content: "";
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: green;
+            margin-right: 5px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+  <div class="container">
+    <p style="color: green"><%= notice %></p>
+
+    <h1>Restaurants</h1>
+
+    <div id="restaurants">
+      <div class="row">
+        <% @restaurants.each_slice(2) do |restaurants_slice| %>
+          <div class="col-sm-6">
+            <% restaurants_slice.each do |restaurant| %>
+              <div class="top-restaurants">
+                <ul>
+                  <li><strong>Name:</strong> <%= link_to restaurant.name, restaurant %><br><strong>Address:</strong> <%= restaurant.address %></li>
+                </ul>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <%= link_to "New restaurant", new_restaurant_path %>
     <p>
-      <strong>Name:</strong> <%= link_to restaurant.name, restaurant %><br>
-      <strong>Address:</strong> <%= restaurant.address %>
+      <%= link_to "Go back to home", pages_home_path %>
     </p>
-  <% end %>
-</div>
-
-<%= link_to "New restaurant", new_restaurant_path %>
-<p>
-<%= link_to "Go back to home", pages_home_path %>
-</p>
+  </div>
+</body>
+</html>

@@ -1,33 +1,141 @@
-<p style="color: green"><%= notice %></p>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <style>
-    .page-container {
-      margin: 20px; /* Aplica un margen de 20 píxeles a todos los lados del contenedor */
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>The Top Restaurant</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            border: 2px solid green;
+            margin-top: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        h1, h2 {
+            color: white;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .btn-dark {
+            color: white;
+            background-color: black;
+            border-color: green;
+            margin-right: 10px;
+        }
+
+        .top-restaurants {
+            margin-top: 30px;
+        }
+
+        .top-restaurants ul {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .top-restaurants li {
+            font-size: 18px;
+            color: white;
+            background-color: black;
+            border: 2px solid green;
+            border-radius: 20px;
+            padding: 10px 20px;
+            margin: 5px;
+            text-align: center;
+        }
+
+        .top-restaurants li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .top-restaurants li::before {
+            content: "";
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: green;
+            margin-right: 5px;
+            margin-top: 5px;
+        }
+
+        .actions-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .actions-container a {
+            color: white;
+            text-decoration: none;
+            background-color: black;
+            padding: 10px 20px;
+            margin: 0 5px;
+        }
+
+        .rounded-box {
+            border: 2px solid green;
+            border-radius: 20px;
+            display: inline-block;
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
+  <div class="container">
+    <p style="color: green"><%= notice %></p>
 
-<h1>Items</h1>
-<div class="page-container">
-<div id="items">
-  <% @items.each do |item| %>
-    <p>
-      <strong>Name:</strong> <%= link_to item.name, restaurant_item_path(@restaurant, item)%><br>
-      <strong>Price:</strong> <%= item.price %>
-    </p>
-    <p>
-    </p>
-  <% end %>
-</div>
-<%= link_to "New item", new_restaurant_item_path %>
-<p>
-<%= link_to "Back to restaurant", restaurant_path(@restaurant) %>
-<br>
-<%= link_to "Go back to home", pages_home_path %>
-</div>
+    <h1>Menu</h1>
+
+    <div class="page-container">
+      <% current_type = nil %>
+      <% @items.each do |item| %>
+        <% if item.dish.name != current_type %>
+          <% current_type = item.dish.name %>
+          <h2><%= current_type %></h2>
+        <% end %>
+        <p>
+          <%= link_to item.name, restaurant_item_path(@restaurant, item) %><br>
+          <strong>$</strong> <%= item.price %>
+        </p>
+      <% end %>
+    </div>
+
+    <div class="actions-container">
+      <div class="rounded-box">
+        <%= link_to "Go back to home", pages_home_path %>
+      </div>
+      <div class="rounded-box">
+        <%= link_to "Back to restaurant", restaurant_path(@restaurant) %>
+      </div>
+      <div class="rounded-box">
+        <%= link_to "New item", new_restaurant_item_path %>
+      </div>
+    </div>
+  </div>
 </body>
-</p>
-<p>
-
-</p>
+</html>

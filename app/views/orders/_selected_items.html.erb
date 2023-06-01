@@ -1,0 +1,8 @@
+<ul>
+  <% items.each do |item| %>
+    <li>
+      <%= item.name %> - $<%= item.price %>
+      <%= button_to "Remove from Order", remove_from_order_path(order_id: @order.id, item_id: item.id), method: :post, remote: true, class: "remove-from-order-button" %>
+    </li>
+  <% end %>
+</ul>

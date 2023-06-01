@@ -1,24 +1,140 @@
-<p style="color: green"><%= notice %></p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Top Restaurant</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: black ;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-<%= render @restaurant %>
+        .container {
+            border: 2px solid green;
+            margin-top: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
 
-<div>
-  <%= link_to "Edit this restaurant", edit_restaurant_path(@restaurant) %> |
-  <%= link_to "Back to restaurants", restaurants_path %>
-  <p>
-    <%= link_to "Show this restaurant's items", restaurant_items_path(@restaurant) %>
-  </p>
+        h1, h2 {
+            color: white;
+        }
 
-  <%= button_to "Eliminar restaurante", restaurant_path(@restaurant), method: :delete, data: { confirm: "¿Estás seguro de que deseas eliminar el restaurante?\n\nLos siguientes items también serán eliminados:\n\nHaz clic en 'Aceptar' para eliminarlos o en 'Cancelar' para mantenerlos.", items: @items.map(&:name).join(', ').to_json }, class: "delete-button" %>
-</div>
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
 
-<script>
-  document.querySelector('.delete-button').addEventListener('click', function(event) {
-    var items = JSON.parse(this.getAttribute('data-items'));
-    if (!confirm("¿Estás seguro de que deseas eliminar el restaurante?\n\nLos siguientes items también serán eliminados:\n" + items + "\n\nHaz clic en 'Aceptar' para eliminarlos o en 'Cancelar' para mantenerlos.")) {
-      event.preventDefault();
-      alert("La eliminación del restaurante ha sido cancelada.");
-    }
-  });
-</script>
+        li {
+            margin-bottom: 10px;
+        }
 
+        .btn-dark {
+            color: white;
+            background-color: black;
+            border-color: green;
+            margin-right: 10px;
+        }
+
+        .top-restaurants {
+            margin-top: 30px;
+        }
+
+        .top-restaurants ul {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .top-restaurants li {
+            font-size: 18px;
+            color: white;
+            background-color: black;
+            border: 2px solid green;
+            border-radius: 20px;
+            padding: 10px 20px;
+            margin: 5px;
+            text-align: center;
+        }
+
+        .top-restaurants li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .top-restaurants li::before {
+            content: "";
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: green;
+            margin-right: 5px;
+            margin-top: 5px;
+        }
+
+        .restaurant-info {
+            margin-bottom: 10px;
+        }
+
+        .button-group {
+            margin-top: 50px;
+        }
+
+        .delete-button {
+            color: white;
+            background-color: red;
+            border-color: red;
+        }
+
+        /* Estilos adicionales */
+        .restaurant-info h2 {
+            font-size: 32px;
+        }
+
+        .restaurant-info p {
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+  <div class="container">
+    <p style="color: green; font-size: 24px;"><%= notice %></p>
+
+    <div class="restaurant-info">
+      <h2><%= @restaurant.name %></h2>
+      <p><%= @restaurant.address %></p>
+    </div>
+    <p>
+      <%= link_to "Show this restaurant's items", restaurant_items_path(@restaurant), class: "btn btn-dark" %>
+    </p>
+    <br>
+    <div class="button-group">
+      <%= link_to "Back to restaurants", restaurants_path, class: "btn btn-dark" %>
+      <%= link_to "Edit this restaurant", edit_restaurant_path(@restaurant), class: "btn btn-dark" %>
+    </div>
+    <br>
+    <%= button_to "Eliminar restaurante", restaurant_path(@restaurant), method: :delete, data: { confirm: "¿Estás seguro de que deseas eliminar el restaurante?\n\nLos siguientes items también serán eliminados:\n\nHaz clic en 'Aceptar' para eliminarlos o en 'Cancelar' para mantenerlos.", items: @items.map(&:name).join(', ').to_json }, class: "btn delete-button" %>
+  </div>
+
+  <script>
+    document.querySelector('.delete-button').addEventListener('click', function(event) {
+      var items = JSON.parse(this.getAttribute('data-items'));
+      if (!confirm("¿Estás seguro de que deseas eliminar el restaurante?\n\nLos siguientes items también serán eliminados:\n" + items + "\n\nHaz clic en 'Aceptar' para eliminarlos o en 'Cancelar' para mantenerlos.")) {
+        event.preventDefault();
+        alert("La eliminación del restaurante ha sido cancelada.");
+      }
+    });
+  </script>
+</body>
+</html>
