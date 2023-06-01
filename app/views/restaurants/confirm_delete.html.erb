@@ -1,0 +1,40 @@
+<h1>Confirm Delete</h1>
+<p><%= @confirm_message %></p>
+<div id = "delete-confirmation">
+</div>
+
+<script>
+  function cancelDelete() {
+    alert("La eliminación del restaurante ha sido cancelada.");
+    window.location.href = "<%= restaurants_path %>";
+  }
+
+  document.getElementById('delete-confirmation').addEventeListener('click', function(e){
+    if (e.target.matches("a")){
+      e.preventDefault();
+      if (confirm("¿Estas seguro de que deseas elimanr el restaurante?")) {
+        var url = e.target.getAttribute("href");
+        deleteRestaurant(url);
+      } else {
+        cancelDelete();
+      }
+    }
+  });
+
+  function deleteRestaurant(url) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('DELETE', url, true);
+    xhr.setRequestHeader("Content-Type", "aplication/json");
+    xhr.setRequestHeader("X-CSRF-Token", "<%= form_authenticity_token.to_s%>");
+    xhr.onload = function() {
+      if (xhr.status === 204) {
+        alert("El restaurante y sus items asociados han sido eliminados correctamente. ");
+        window.location.href = "<%= restaurants_path %>";
+      } else {
+        alert("Ocurrio un error al eliminar el restaurante. ");
+        cancelDelete();
+      }
+    };
+    xhr.send();
+  }
+</script>

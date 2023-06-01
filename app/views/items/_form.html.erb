@@ -1,4 +1,5 @@
-<%= form_with(model: [@restaurant, item], url: restaurant_item_path(item.restaurant, item), local: true) do |form| %>
+<%= form_with(model: [@restaurant, item], url: [@restaurant, item], local: true, method: :patch) do |form| %>
+  <%= form.hidden_field :_method, value: :patch %>
   <% if item.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(item.errors.count, "error") %> prohibited this item from being saved:</h2>

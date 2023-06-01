@@ -1,15 +1,55 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  name: MyString
-  price: 
-  callories: 1
-  restaurant: one
-  dish: one
-
-two:
-  name: MyString
-  price: 
-  callories: 1
-  restaurant: two
-  dish: two
+---
+i01:
+  name: Pan
+  price: 1000
+  callories: 150
+  restaurant: r01
+  dish: dish01
+i02:
+  name: Hamburguesa
+  price: 1500
+  callories: 200
+  restaurant: r01
+  dish: dish02
+i03:
+  name: Papa Frita
+  price: 1000
+  callories: 300
+  restaurant: r01
+  dish: dish03
+i04:
+  name: Lechuga
+  price: 200
+  callories: 20
+  restaurant: r02
+  dish: dish01
+i05:
+  name: Tomate
+  price: 100
+  callories: 50
+  restaurant: r02
+  dish: dish02
+i06:
+  name: Queso
+  price: 300
+  callories: 200
+  restaurant: r02
+  dish: dish03
+i07:
+  name: Cebolla
+  price: 1000
+  callories: 100
+  restaurant: r03
+  dish: dish01
+i08:
+  name: Frutilla
+  price: 1000
+  callories: 200
+  restaurant: r03
+  dish: dish02
+i09:
+  name: Helado
+  price: 1000
+  callories: 200
+  restaurant: r03
+  dish: dish03

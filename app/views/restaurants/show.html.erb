@@ -9,6 +9,16 @@
     <%= link_to "Show this restaurant's items", restaurant_items_path(@restaurant) %>
   </p>
 
-  <%= button_to "Destroy this restaurant", @restaurant, method: :delete %>
+  <%= button_to "Eliminar restaurante", restaurant_path(@restaurant), method: :delete, data: { confirm: "¿Estás seguro de que deseas eliminar el restaurante?\n\nLos siguientes items también serán eliminados:\n\nHaz clic en 'Aceptar' para eliminarlos o en 'Cancelar' para mantenerlos.", items: @items.map(&:name).join(', ').to_json }, class: "delete-button" %>
 </div>
+
+<script>
+  document.querySelector('.delete-button').addEventListener('click', function(event) {
+    var items = JSON.parse(this.getAttribute('data-items'));
+    if (!confirm("¿Estás seguro de que deseas eliminar el restaurante?\n\nLos siguientes items también serán eliminados:\n" + items + "\n\nHaz clic en 'Aceptar' para eliminarlos o en 'Cancelar' para mantenerlos.")) {
+      event.preventDefault();
+      alert("La eliminación del restaurante ha sido cancelada.");
+    }
+  });
+</script>
 

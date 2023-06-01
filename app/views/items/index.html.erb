@@ -13,11 +13,8 @@
 <div id="items">
   <% @items.each do |item| %>
     <p>
-      <strong>Name:</strong> <%= item.name %><br>
+      <strong>Name:</strong> <%= link_to item.name, restaurant_item_path(@restaurant, item)%><br>
       <strong>Price:</strong> <%= item.price %>
-    </p>
-    <p>
-      <%= link_to "Show this item", restaurant_item_path(@restaurant, item)  %>
     </p>
     <p>
     </p>
@@ -25,6 +22,8 @@
 </div>
 <%= link_to "New item", new_restaurant_item_path %>
 <p>
+<%= link_to "Back to restaurant", restaurant_path(@restaurant) %>
+<br>
 <%= link_to "Go back to home", pages_home_path %>
 </div>
 </body>

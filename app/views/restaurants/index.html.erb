@@ -4,9 +4,9 @@
 
 <div id="restaurants">
   <% @restaurants.each do |restaurant| %>
-    <%= render restaurant %>
     <p>
-      <%= link_to "Show this restaurant", restaurant %>
+      <strong>Name:</strong> <%= link_to restaurant.name, restaurant %><br>
+      <strong>Address:</strong> <%= restaurant.address %>
     </p>
   <% end %>
 </div>

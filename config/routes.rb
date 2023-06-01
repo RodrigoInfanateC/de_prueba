@@ -1,14 +1,14 @@
 Rails.application.routes.draw do
   root to: "pages#home"
+  post '/restaurants/:restaurant_id/items', to: 'items#create', as: 'restaurant_items'
+  patch '/restaurants/:restaurant_id/items/:id', to: 'items#update', as: 'restaurant_item'
   resources :restaurants do
-    resources :items # /restaurants/:restaurant_id/items
+    resources :items, only: [:new, :create, :edit, :update]
+    patch '/items', to: 'items#update', as: 'update_items'
   end
   resources :dishes
   get "pages/home"
-
-
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
-  # root "articles#index"
+  resources :items
 end
+
+

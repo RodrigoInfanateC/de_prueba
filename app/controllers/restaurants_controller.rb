@@ -1,6 +1,6 @@
 class RestaurantsController < ApplicationController
   #before_action :set_restaurant, only: %i[ show edit update destroy ]
-
+  before_action :confirm_delete?, only: %i[:destroy]
   # GET /restaurants or /restaurants.json
   def index
     @restaurants = Restaurant.all
@@ -20,7 +20,6 @@ class RestaurantsController < ApplicationController
   # GET /restaurants/1/edit
   def edit
     @restaurant = Restaurant.find(params[:id])
-    
   end
 
   # POST /restaurants or /restaurants.json
@@ -40,6 +39,8 @@ class RestaurantsController < ApplicationController
 
   # PATCH/PUT /restaurants/1 or /restaurants/1.json
   def update
+    @restaurant = Restaurant.find(params[:id])
+    restaurant_params = params.require(:restaurant).permit(:name, :address)
     respond_to do |format|
       if @restaurant.update(restaurant_params)
         format.html { redirect_to restaurant_url(@restaurant), notice: "Restaurant was successfully updated." }
@@ -53,22 +54,49 @@ class RestaurantsController < ApplicationController
 
   # DELETE /restaurants/1 or /restaurants/1.json
   def destroy
-    @restaurant.destroy
-
-    respond_to do |format|
-      format.html { redirect_to restaurants_url, notice: "Restaurant was successfully destroyed." }
-      format.json { head :no_content }
+    @restaurant = Restaurant.find(params[:id])
+    @items = @restaurant.items
+    if confirm_delete?
+      Restaurant.transaction do
+        @items.destroy_all
+        @restaurant.destroy
+      end
+      if @restaurant.destroyed?
+        flash[:notice] = "El restaurante y sus items asociados han sido eliminados correctamente."
+      else
+        flash[:alert] = "Ocurrió un error al eliminar el restaurante."
+      end
+    else
+      flash[:alert] = "La eliminación del restaurante ha sido cancelada."
     end
+    redirect_to restaurants_url unless performed?
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_restaurant
-      @restaurant = Restaurant.find(params[:id])
+
+  def confirm_delete?
+    @restaurant = Restaurant.find(params[:id])
+    @items = @restaurant.items
+    confirm_message = "¿Estás seguro de que deseas eliminar el restaurante?\n\nLos siguientes items también serán eliminados:\n\n"
+    confirm_message += @items.map(&:name).join(', ') + "\n\nHaz clic en 'Aceptar' para eliminarlos o en 'Cancelar' para mantenerlos."
+
+    if params[:confirm_delete] == 'true'
+      true
+    else
+      respond_to do |format|
+        format.html { render 'confirm_delete', layout: false } unless performed?
+        format.js { render 'confirm_delete.js.erb' } unless performed?
+      end
+      false
     end
+  end
+    # Use callbacks to share common setup or constraints between actions.
+  def set_restaurant
+    @restaurant = Restaurant.find(params[:id])
+  end
 
     # Only allow a list of trusted parameters through.
-    def restaurant_params
-      params.require(:restaurant).permit(:name, :address)
-    end
+  def restaurant_params
+    params.require(:restaurant).permit(:name, :address)
+  end
 end
